@@ -6,14 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
+import androidx.compose.ui.res.colorResource
 
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
+import androidx.core.content.ContextCompat
+
 
 class MainActivity : AppCompatActivity() {
 
-
+    var isOn: Boolean = false;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +27,27 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val boton = findViewById<Button>(R.id.botonEncender)
+        val botonLlamada = findViewById<Button>(R.id.botonEncender)
 
-        boton.setOnClickListener {
-            enviarComando("http://192.168.1.50/on")
+        botonLlamada.setOnClickListener {
+            if(isOn==true) {
+                botonLlamada.setTextColor(ContextCompat.getColorStateList(this, R.color.red))
+                isOn = false;
+                //enviarComando("https://pruebaaaaa.free.beeceptor.com/off")
+                enviarComando("http://192.168.1.4/off")
+
+            }
+
+            else{
+                botonLlamada.setTextColor(ContextCompat.getColorStateList(this, R.color.green))
+                isOn=true;
+                //enviarComando("https://pruebaaaaa.free.beeceptor.com/on")
+                enviarComando("http://192.168.1.4/on")
+
+
+            }
+
+
         }
     }
 

@@ -13,10 +13,12 @@
         android:gravity="center">
         <Button
             android:id="@+id/botonEncender"
+            android:textColor="@color/red"
             android:text="Encender Led"
             android:textSize="25dp"
             android:layout_width="300dp"
-            android:layout_height="100dp">
+            android:layout_height="100dp"
+            android:backgroundTint="@color/black">
         </Button>
     </LinearLayout>
 
