@@ -1,22 +1,25 @@
 package com.example.proyectorobotica
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import android.widget.Button
-import androidx.compose.ui.res.colorResource
-
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
-import androidx.core.content.ContextCompat
+import android.os.Handler
+import android.os.Looper
+import android.media.MediaPlayer
 
 
 class MainActivity : AppCompatActivity() {
 
     var isOn: Boolean = false;
+    var isLightning: Boolean = false;
+    lateinit var mp: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val botonLlamada = findViewById<Button>(R.id.botonEncender)
 
         botonLlamada.setOnClickListener {
-            if(isOn==true) {
+            if(isOn==true && isLightning==false) {
                 botonLlamada.setTextColor(ContextCompat.getColorStateList(this, R.color.red))
                 isOn = false;
                 //enviarComando("https://pruebaaaaa.free.beeceptor.com/off")
@@ -38,17 +41,29 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            else{
+            else if(isLightning==false){
                 botonLlamada.setTextColor(ContextCompat.getColorStateList(this, R.color.green))
-                isOn=true;
                 //enviarComando("https://pruebaaaaa.free.beeceptor.com/on")
                 enviarComando("http://192.168.1.4/on")
+                isLightning==true;
+                //Logica música
+                mp = MediaPlayer.create(this, R.raw.cancion)
+                mp.start()
 
+                Handler(Looper.getMainLooper()).postDelayed({
+                    isLightning==false;
+                    isOn=true;
+                    mp.stop()
+                }, 4000)
 
             }
 
 
         }
+    }
+    override fun onDestroy() {
+        mp.release()
+        super.onDestroy()
     }
 
 }

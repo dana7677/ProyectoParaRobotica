@@ -9,9 +9,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:gravity="center">
+
         <Button
+
             android:id="@+id/botonEncender"
             android:textColor="@color/red"
             android:text="Encender Led"
